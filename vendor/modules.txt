@@ -311,16 +311,6 @@ github.com/antlr4-go/antlr/v4
 # github.com/apapsch/go-jsonmerge/v2 v2.0.0
 ## explicit; go 1.12
 github.com/apapsch/go-jsonmerge/v2
-# github.com/arangodb/go-driver v1.6.5
-## explicit; go 1.20
-github.com/arangodb/go-driver
-github.com/arangodb/go-driver/cluster
-github.com/arangodb/go-driver/http
-github.com/arangodb/go-driver/jwt
-github.com/arangodb/go-driver/util
-# github.com/arangodb/go-velocypack v0.0.0-20200318135517-5af53c29c67e
-## explicit; go 1.12
-github.com/arangodb/go-velocypack
 # github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
 ## explicit; go 1.13
 github.com/asaskevich/govalidator
@@ -768,9 +758,6 @@ github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/protoc-gen-gogo/descriptor
 github.com/gogo/protobuf/sortkeys
 github.com/gogo/protobuf/types
-# github.com/golang-jwt/jwt v3.2.2+incompatible
-## explicit
-github.com/golang-jwt/jwt
 # github.com/golang-jwt/jwt/v4 v4.5.1 => github.com/golang-jwt/jwt/v4 v4.5.1
 ## explicit; go 1.16
 github.com/golang-jwt/jwt/v4
