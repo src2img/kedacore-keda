@@ -17,6 +17,7 @@ endif
 
 IMAGE_REGISTRY ?= ghcr.io
 IMAGE_REPO     ?= kedacore
+ASSETS_DIR     ?= /tmp/apps-eventing-keda
 
 IMAGE_CONTROLLER = $(IMAGE_REGISTRY)/$(IMAGE_REPO)/keda$(SUFFIX):$(VERSION)
 IMAGE_ADAPTER    = $(IMAGE_REGISTRY)/$(IMAGE_REPO)/keda-metrics-apiserver$(SUFFIX):$(VERSION)
@@ -49,7 +50,7 @@ endif
 GOPATH:=$(shell go env GOPATH)
 
 GO_BUILD_VARS= GO111MODULE=on CGO_ENABLED=$(CGO) GOOS=$(TARGET_OS) GOARCH=$(ARCH)
-GO_LDFLAGS="-X=github.com/kedacore/keda/v2/version.GitCommit=$(GIT_COMMIT) -X=github.com/kedacore/keda/v2/version.Version=$(VERSION)"
+GO_LDFLAGS="-w -X=github.com/kedacore/keda/v2/version.GitCommit=$(GIT_COMMIT) -X=github.com/kedacore/keda/v2/version.Version=$(VERSION)"
 
 COSIGN_FLAGS ?= -y -a GIT_HASH=${GIT_COMMIT} -a GIT_VERSION=${VERSION} -a BUILD_DATE=${DATE}
 
@@ -248,9 +249,9 @@ release: manifests kustomize set-version ## Produce new KEDA release in keda-$(V
 	@sed -i".out" -e 's@version:[ ].*@version: $(VERSION)@g' config/default/kustomize-config/metadataLabelTransformer.yaml
 	@sed -i".out" -e 's@version:[ ].*@version: $(VERSION)@g' config/minimal/kustomize-config/metadataLabelTransformer.yaml
 	rm -rf config/default/kustomize-config/metadataLabelTransformer.yaml.out
-	$(KUSTOMIZE) build config/default > keda-$(VERSION).yaml
-	$(KUSTOMIZE) build config/minimal > keda-$(VERSION)-core.yaml
-	$(KUSTOMIZE) build config/crd     > keda-$(VERSION)-crds.yaml
+	$(KUSTOMIZE) build config/default > $(ASSETS_DIR)/keda.yaml
+	$(KUSTOMIZE) build config/minimal > $(ASSETS_DIR)/keda-core.yaml
+	$(KUSTOMIZE) build config/crd     > $(ASSETS_DIR)/keda-crds.yaml
 
 sign-images: ## Sign KEDA images published on GitHub Container Registry
 	COSIGN_EXPERIMENTAL=1 cosign sign ${COSIGN_FLAGS} $(IMAGE_CONTROLLER)
